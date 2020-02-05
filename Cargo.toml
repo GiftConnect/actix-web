@@ -90,7 +90,9 @@ lazycell = "1.0.0"
 parking_lot = "0.7"
 serde_urlencoded = "^0.5.3"
 url = { version="1.7", features=["query_encoding"] }
-cookie = { version="0.13.3", features=["percent-encode"] }
+#cookie = { version="0.13.3", features=["percent-encode"] }
+cookie = {  git = "https://github.com/jgrimes/cookie-rs", rev = "ce6ad8ce02505167203891a519ae39ad70f2dc30", features=["percent-encode", "secure"] }
+
 brotli2 = { version="^0.3.2", optional = true }
 flate2 = { version="^1.0.2", optional = true, default-features = false }
 
