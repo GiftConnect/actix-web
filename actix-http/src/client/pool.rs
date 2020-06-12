@@ -92,11 +92,6 @@ where
     }
 
     fn call(&mut self, req: Connect) -> Self::Future {
-        // start support future
-        actix_rt::spawn(ConnectorPoolSupport {
-            connector: self.0.clone(),
-            inner: self.1.clone(),
-        });
 
         let mut connector = self.0.clone();
         let inner = self.1.clone();
@@ -145,6 +140,11 @@ where
                 _ => {
                     // connection is not available, wait
                     let (rx, token) = inner.borrow_mut().wait_for(req);
+                    // start support future
+                    actix_rt::spawn(ConnectorPoolSupport {
+                        connector: connector.clone(),
+                        inner: inner.clone(),
+                    });
 
                     let guard = WaiterGuard::new(key, token, inner);
                     let res = match rx.await {
